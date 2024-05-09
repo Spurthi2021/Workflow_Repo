@@ -11,13 +11,11 @@ jobs:
          run: echo '${{ toJSON(github.event) }}' | jq
 
        - name: Create comment
-         uses: peter-evans/create-or-update-comment@v4
+         uses: peter-evans/create-or-update-comment@v1
          with:
-           issue-number: ${{ (github.event.issue.numer) }} 
+           issue-number: ${{ (github.event.issue.number) }} 
            body: |
-            This is a multi-line test comment
-            - The new issue is added to the project and it need to be assigned asap to a resource.
-                       
-           reactions: '+1'
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
    
    
