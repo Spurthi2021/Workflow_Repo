@@ -15,7 +15,6 @@ jobs:
          with:
            issue-number: ${{ (github.event.issue.number) }} 
            body: |
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
+             This is a multi line comment to be added.
    
    
