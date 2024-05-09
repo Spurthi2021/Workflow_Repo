@@ -13,7 +13,7 @@ jobs:
        - name: Create comment
          uses: peter-evans/create-or-update-comment@v4
          with:
-           issue-number: 1
+           issue-number: ${{ (github.event.issue.numer) }} 
            body: |
             This is a multi-line test comment
             - The new issue is added to the project and it need to be assigned asap to a resource.
