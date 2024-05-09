@@ -9,6 +9,15 @@ jobs:
     steps:
        - name:  "dump github context"
          run: echo '${{ toJSON(github.event) }}' | jq
-        
+
+       - name: Create comment
+         uses: peter-evans/create-or-update-comment@v4
+         with:
+           issue-number: 1
+           body: |
+            This is a multi-line test comment
+            - The new issue is added to the project and it need to be assigned asap to a resource.
+                       
+           reactions: '+1'
    
    
