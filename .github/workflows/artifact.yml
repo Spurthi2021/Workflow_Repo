@@ -1,0 +1,68 @@
+name: Share data between jobs
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_1:
+        description: 'Enter the first input?'
+        required: true
+        type: integer
+
+      input_2:
+        description: 'Enter the Second input?'
+        required: true
+        type: integer
+
+      input_3:
+        description: 'Enter the third input?'
+        required: true
+        type: integer
+
+
+jobs:
+  job_1:
+    name: Addition
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        run: |
+          expr ${{ inputs.input_1 }} + ${{ inputs.input_2 }} > addition.txt
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v4
+        with:
+          name: addition
+          path: addition.txt
+
+  job_2:
+    name: Multiplication
+    needs: job_1
+    runs-on: windows-latest
+    steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v4
+        with:
+          name: addition
+      - shell: bash
+        run: |
+          value=`cat addition.txt`
+          expr $value \* ${{ inputs.input_3 }} > multiplication.txt
+      - name: Upload math result for job 2
+        uses: actions/upload-artifact@v4
+        with:
+          name: Final
+          path: multiplication.txt
+
+  job_3:
+    name: Display results
+    needs: job_2
+    runs-on: windows-latest
+    steps:
+      - name: Download math result for job 2
+        uses: actions/download-artifact@v4
+        with:
+          name: Final
+      - name: Print the final result
+        shell: bash
+        run: |
+          value=`cat multiplication.txt`
+          echo The result is $value
